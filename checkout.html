@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bánh BREADS</title>
+    <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+    <link rel="stylesheet" href="css/checkout.css">
+    <script src="jquery-3.7.1.js" type="text/javascript"></script> 
+    <script src="js/angular/user.js"></script>
+</head>
+<body ng-app="AppAdmin">
+    
+    <div class="container section">
+        <div class="checkoutLayout">
+            <div class="right">
+                <h1>Thông tin đơn đặt</h1>
+
+                <div class="form">
+                    <div class="group">
+                        <label for="name">Tên người nhận</label>
+                        <input type="text" name="name" id="name">
+                    </div>
+        
+                    <div class="group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="text" name="phone" id="phone">
+                    </div>
+        
+                    <div class="group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" name="address" id="address">
+                    </div>
+                    <div class="group">
+                        <label for="country">Tỉnh (Thành phố)</label>
+                        <select name="country" id="country">
+                            <option value="">Chọn tỉnh (Thành phố)</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label for="city">Quận (Huyện)</label>
+                        <select name="city" id="city">
+                            <option value="">Chọn quận (Huyện)</option>
+                        </select>
+                    </div>
+                </div>
+                <h1>Phương thức giao hàng</h1>
+                <div class="form">
+                    <div class="group">
+                        <div class="radio-group">
+                            <label for="shipping" class="radio-label">
+                                <input type="radio" name="delivery-method" id="shipping" value="Vận chuyển" checked>
+                                <span class="custom-radio"></span>
+                                <span>Vận chuyển</span>
+                                <i class='bx bxs-truck'></i>
+                            </label>
+                            <label for="pickup" class="radio-label">
+                                <input type="radio" name="delivery-method" id="pickup" value="Nhận tại cửa hàng">
+                                <span class="custom-radio"></span>
+                                <span>Nhận tại cửa hàng</span>
+                                <i class='bx bxs-store'></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>            
+                <h2>Chi nhánh cửa hàng</h2>
+                <div class="form">
+                    <div class="group">
+                        <div class="radio-group">
+                            <label for="north" class="radio-label">
+                                <input type="radio" name="branch" id="north" value="Miền Bắc" checked>
+                                <span class="custom-radio"></span>
+                                <span>Miền Bắc</span>
+                                <i class='bx bxs-map'></i>
+                            </label>
+                            <label for="central" class="radio-label">
+                                <input type="radio" name="branch" id="central" value="Miền Trung">
+                                <span class="custom-radio"></span>
+                                <span>Miền Trung</span>
+                                <i class='bx bxs-map'></i>
+                            </label>
+                            <label for="south" class="radio-label">
+                                <input type="radio" name="branch" id="south" value="Miền Nam">
+                                <span class="custom-radio"></span>
+                                <span>Miền Nam</span>
+                                <i class='bx bxs-map'></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <h1>Phương thức thanh toán</h1>
+                <div class="form">
+                    <div class="group">
+                        <div class="radio-group">
+                            <label for="online-payment">
+                                <input type="radio" name="payment-method" id="online-payment" value="Thanh toán trực tuyến" checked>
+                                <span class="custom-radio"></span>
+                                <span>Thanh toán trực tuyến</span>
+                            </label>
+                            <label for="cash-on-delivery">
+                                <input type="radio" name="payment-method" id="cash-on-delivery" value="Thanh toán khi nhận hàng">
+                                <span class="custom-radio"></span>
+                                <span>Thanh toán khi nhận hàng</span> 
+                            </label>
+                            <label for="postpaid-payment">
+                                <input type="radio" name="payment-method" id="postpaid-payment" value="Thanh toán trả sau">
+                                <span class="custom-radio"></span>
+                                <span>Thanh toán trả sau</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button class="buttonCheckout">Xác Nhận Đặt Hàng</button>
+            </div>
+            <div class="returnCart">
+                <a href="shop.html"><i class='bx bx-arrow-back'></i>Trở lại giỏ hàng</a>
+                <h1>Sản Phẩm Trong Đơn</h1>
+                <div class="list">
+                </div>
+                <div class="return">
+                    <div class="row">
+                        <div>Tổng số lượng</div>
+                        <div class="totalQuantity">0</div>
+                    </div>
+                    <div class="row">
+                        <div>Tổng tiền</div>
+                        <div class="totalPrice">0.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main-js/checkout.js"></script>
+</body>
+</html>

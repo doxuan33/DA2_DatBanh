@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular/global.js"></script>
+    
+    <title>Bánh BREADS</title>
+</head>
+
+<body ng-app="AppAdmin">
+    <script src="js/angular/hoadon.js"></script>
+    <section id="Total" ng-controller="HoaDonCtrl">
+        
+        <div class="head-title">
+            <main>
+                <div class="left">
+                    <h1>Bảng điều khiển</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Bảng điều khiển</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="#">Doanh Thu</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="data">
+                  <div class="details">
+                      <div class="recentOrders">
+                          <div class="cardHeader">
+                              <h2>Đơn Đặt Hàng</h2>
+                              
+                          </div>
+                          <table>
+                            <thead>
+                                <tr>
+                                    <td>Mã Đơn</td>
+                                    <td>Tên Khách</td>
+                                    <td>Địa chỉ</td>
+                                    <td>Số điện thoại</td>
+                                    <td>Ngày tạo</td>
+                                    <td>Trạng thái</td>
+                                    <td>Điều khiển</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>DH00001</td>
+                                    <td>Plinh</td>
+                                    <td>Yên Mỹ</td>
+                                    <td>0448508394</td>
+                                    <td>10/11/2024</td>
+                                    <td><span class="bg-primary badge">Đang giao</span></td> <!-- Áp dụng lớp cho trạng thái -->
+                                    <td>
+                                        <a href="#" class="btn" style="background-color: rgb(149, 196, 246);" ng-click="editOrder(order)" data-bs-toggle="modal" data-bs-target="#addChiTiet">Sửa <i class='bx bx-edit'></i></a>
+                                        <a href="#" class="btn" style="background-color: rgb(224, 67, 59);" ng-click="deleteOrder(order.donDatHangID)">Xoá <i class='bx bxs-message-square-x'></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="questions__header">
+                                    <td>DH00002</td>
+                                    <td>Minh Đức</td>
+                                    <td>Hà Nội</td>
+                                    <td>0987654321</td>
+                                    <td>12/11/2024</td>
+                                    <td><span class="bg-warning text-dark badge">Chưa giao</span></td>
+                                    <td>
+                                        <a href="#" class="btn" style="background-color: rgb(149, 196, 246);" ng-click="editOrder(order)" data-bs-toggle="modal" data-bs-target="#addChiTiet">Sửa <i class='bx bx-edit'></i></a>
+                                        <a href="#" class="btn" style="background-color: rgb(224, 67, 59);" ng-click="deleteOrder(order.donDatHangID)">Xoá <i class='bx bxs-message-square-x'></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="questions__header">
+                                    <td>DH00003</td>
+                                    <td>Huyền Trang</td>
+                                    <td>Hải Dương</td>
+                                    <td>0123456789</td>
+                                    <td>14/11/2024</td>
+                                    <td><span class="bg-success badge">Đã giao</span></td>
+                                    <td>
+                                        <a href="#" class="btn" style="background-color: rgb(149, 196, 246);" ng-click="editOrder(order)" data-bs-toggle="modal" data-bs-target="#addChiTiet">Sửa <i class='bx bx-edit'></i></a>
+                                        <a href="#" class="btn" style="background-color: rgb(224, 67, 59);" ng-click="deleteOrder(order.donDatHangID)">Xoá <i class='bx bxs-message-square-x'></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="questions__header">
+                                    <td>DH00004</td>
+                                    <td>Nam Anh</td>
+                                    <td>Thái Bình</td>
+                                    <td>0987654322</td>
+                                    <td>16/11/2024</td>
+                                    <td><span class="bg-danger badge">Đã hủy</span></td>
+                                    <td>
+                                        <a href="#" class="btn" style="background-color: rgb(149, 196, 246);" ng-click="editOrder(order)" data-bs-toggle="modal" data-bs-target="#addChiTiet">Sửa <i class='bx bx-edit'></i></a>
+                                        <a href="#" class="btn" style="background-color: rgb(224, 67, 59);" ng-click="deleteOrder(order.donDatHangID)">Xoá <i class='bx bxs-message-square-x'></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                              <tbody>
+                                  <tr ng-repeat="order in listHD" class="questions__header" ng-click="showDetails(order)">
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet">{{order.donDatHangID}}</td>
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet">{{order.tenKhachHang}}</td>
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet">{{order.diaChi}}</td>
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet">{{order.sdt}}</td>
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet">{{order.ngayTao | date : 'dd/MM/yyyy'}}</td>
+                                      <td data-bs-toggle="modal" data-bs-target="#addChiTiet"><span class="badge" ng-class="{
+                                          'bg-primary': order.trangThai === 'Đang giao',
+                                          'bg-success': order.trangThai === 'Đã giao',
+                                          'bg-warning text-dark': order.trangThai === 'Chưa giao',
+                                          'bg-danger': order.trangThai === 'Đã hủy'
+                                      }">{{order.trangThai}}</span></td>
+                                      <td>
+                                          <a href="#" class="btn" style="background-color: rgb(149, 196, 246);" ng-click="editOrder(order)" data-bs-toggle="modal" data-bs-target="#addChiTiet">Sửa <i class='bx bx-edit'></i></a>
+                                          <a href="#" class="btn" style="background-color: rgb(224, 67, 59);" ng-click="deleteOrder(order.donDatHangID)">Xoá <i class='bx bxs-message-square-x'></i></a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+              
+                          <!-- Modal for Order Details and Creating New Order -->
+                          <div class="modal fade" id="addChiTiet" tabindex="-1" aria-hidden="true">
+                              <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                      <!-- Header -->
+                                      <div class="modal-header" style="background-color: #f5f5dc;">
+                                          <h5 class="modal-title">Chi tiết đơn đặt hàng</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+              
+                                     <!-- Body -->
+                                     <div class="modal-body">
+                                       <!-- Display order details or new order creation form -->
+                                       <div ng-if="selectedOrder">
+                                           <h4 class="fw-bold">Thông tin đơn hàng</h4>
+                                           <div class="row">
+                                               <div class="col-md-6">
+                                                   <p><strong>Mã đơn hàng:</strong> {{selectedOrder.donDatHangID}}</p>
+                                                   <p><strong>Khách hàng:</strong> {{selectedOrder.tenKhachHang}}</p>
+                                                   <p><strong>Địa chỉ:</strong> {{selectedOrder.diaChi}}</p>
+                                                   <p><strong>Số điện thoại:</strong> {{selectedOrder.sdt}}</p>
+                                               </div>
+                                               <div class="col-md-6">
+                                                   <p><strong>Ngày tạo:</strong> {{selectedOrder.ngayTao | date : 'MM/dd/yyyy'}}</p>
+                                                   <p><strong>Trạng thái:</strong>
+                                                       <div class="dropdown">
+                                                           <button class="btn dropdown-toggle" type="button" id="trangThaiDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                               {{selectedOrder.trangThai}}
+                                                           </button>
+                                                           <ul class="dropdown-menu" aria-labelledby="trangThaiDropdown">
+                                                                <li ng-if="selectedOrder.trangThai !== 'Đã giao' && selectedOrder.trangThai !== 'Đã hủy'">
+                                                                    <a class="dropdown-item text-primary" href="#" ng-click="changeTrangThai('Đang giao')">Đang giao</a>
+                                                                </li>
+                                                                <li ng-if="selectedOrder.trangThai !== 'Đã giao' && selectedOrder.trangThai !== 'Đã hủy'">
+                                                                    <a class="dropdown-item text-success" href="#" ng-click="changeTrangThai('Đã giao')">Đã giao</a>
+                                                                </li>
+                                                                <li ng-if="selectedOrder.trangThai !== 'Đã giao' && selectedOrder.trangThai !== 'Đã hủy'">
+                                                                    <a class="dropdown-item text-warning" href="#" ng-click="changeTrangThai('Chưa giao')">Chưa giao</a>
+                                                                </li>
+                                                                <li ng-if="selectedOrder.trangThai !== 'Đã giao' && selectedOrder.trangThai !== 'Đã hủy'">
+                                                                    <a class="dropdown-item text-danger" href="#" ng-click="changeTrangThai('Đã hủy')">Đã hủy</a>
+                                                                </li>
+                                                            </ul>
+                                                       </div>
+                                                   </p>
+                                               </div>
+                                           </div>
+                                   
+                                           <!-- Product List in Order -->
+                                           <h4 class="fw-bold">Danh sách sản phẩm</h4>
+                                           <div class="table-responsive">
+                                               <table class="table table-striped">
+                                                   <thead>
+                                                       <tr>
+                                                           <th>Mã Chi Tiết</th>
+                                                           <th>Mã Bánh</th>
+                                                           <th>Tên Bánh</th>
+                                                           <th>Số Lượng</th>
+                                                           <th>Giá Bán</th>
+                                                           <th>Ghi Chú</th>
+                                                       </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                       <tr ng-repeat="item in selectedOrder.listjson_chitiet">
+                                                           <td>{{item.chiTietDonDatHangID}}</td>
+                                                           <td>{{item.matHangID}}</td>
+                                                           <td>{{item.tenMatHang}}</td>
+                                                           <td>{{item.soLuong}}</td>
+                                                           <td>{{item.giaBan | currency : ''}}đ</td>
+                                                           <td>{{item.ghiChu}}</td>
+                                                       </tr>
+                                                   </tbody>
+                                               </table>
+                                           </div>
+                                       </div>
+                                   </div>
+                                      <!-- Footer -->
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                          <button type="button" class="btn btn-primary" ng-click="updateOrder()">Lưu thay đổi</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+              
+                      </div>
+                  </div>
+              </div>
+            </main>
+        </div>
+    </section>
+</body>
+
+</html>

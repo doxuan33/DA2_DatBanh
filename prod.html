@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+      <link rel="stylesheet" href="styles.css">
+      <link rel="stylesheet" href="css/prod.css">
+      <script src="jquery-3.7.1.js" type="text/javascript"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+      <script src="js/main-js/prod.js"></script>
+      <script src="js/angular/sanpham.js"></script>
+      <script src="js/angular/angular.min.js"></script> 
+      <script src="js/angular/user.js"></script>
+      <title>Bánh BREADS</title>
+   </head>
+   <body ng-app="AppAdmin">
+    <header class="header" id="header" ng-controller="UserCtrl">
+        <nav class="nav container" class="nav">
+            <a href="index.html" class="nav__logo">
+                <i class="ri-cake-3-fill"></i>Breads</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Trang chủ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="home.html" class="nav__link">Giới thiệu</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="new.html" class="nav__link">Tin tức</a>
+                    </li>
+                    <li class="nav__item">
+                        <div class="dropdown" id="dropdown">
+                            <a href="prod.html" class="nav__link">Sản phẩm </a>
+                            <div class="dropdown-content" id="dropdownMenu">
+                                <a href="prod.html">Bánh Macaron</a>
+                                <a href="prod.html">Bánh nướng</a>
+                                <a href="prod.html">Bánh bông lan</a>
+                                <a href="prod.html">Bán Pháp</a>
+                                <a href="prod.html">Bánh kem</a>
+                                <a href="prod.html">Đồ uống</a>
+                            </div> 
+                        </div>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">Liên hệ</a>
+                    </li>
+                    <li class="nav__item" id="cart">
+                        <a href="shop.html" class="notification">
+                            <i class='bx bxs-cart-download'></i>
+                            <span class="num">0</span>
+                        </a>
+                   </li>
+                   <li class="nav__item card__article" ng-controller="UserCtrl">
+                    <!-- Liên kết điều hướng đến trang profile -->
+                    <a href="profile.html" id="user" class="nav__link">
+                        <!-- Hiển thị biểu tượng nếu chưa đăng nhập -->
+                        <i class="ri-user-fill" ng-if="!currentUser"></i>
+                        <!-- Hiển thị ảnh đại diện nếu người dùng đã đăng nhập -->
+                        <img class="profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                    </a>
+                    <!-- Thông tin người dùng hiển thị khi hover -->
+                    <div class="card__tooltip" ng-if="currentUser">
+                        <div class="card__content">
+                            <a href="profile.html">
+                                <img class="card__profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                            </a>
+                            <div class="card__data">
+                                <p><strong>Tên:</strong> {{currentUser.tenDangNhap}}</p>
+                                <p><strong>Email:</strong> {{currentUser.email}}</p>
+                                <p ng-if="currentUser.quyenHan === 'Admin'"><strong>Quyền:</strong> Admin</p>
+                                <p ng-if="currentUser.quyenHan !== 'Admin'"><strong>Quyền:</strong> Người dùng</p>
+                                <a href="#" class="card__button" ng-click="logout()">
+                                    <i class='bx bxs-log-out-circle'></i>
+                                    <span class="text">Đăng Xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                                   
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav__btns">
+                <!-- Theme change button -->
+                <i class="ri-moon-line change-theme" id="theme-button"></i>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+     <!-- main -->
+     <main class="main">
+        
+        <section class="product"id="products">
+            
+            <div class="product-carousel">
+                <div class="top-products">
+                    <h1 class="section__title-center">Bộ sưu tập</h1>
+        
+                    <div class="container-options">
+                        <span class="active">Nổi Bật</span>
+                        <span>Mới Nhất</span>
+                        <span>Bán chạy</span>
+                    </div>
+        
+                    <div class="container-products ">
+                        <!-- Producto 1 -->
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img src="anh/b14.png" alt="Cafe Irish" class="product__img"/>
+                                <span class="discount">-13%</span>
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh Cacao Macca</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="price">23.000đ <span>250.000đ</span></p>
+                            </div>
+                        </div>
+                        <!-- Producto 2 -->
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img
+                                    src="anh/b10.png"
+                                    alt="Cafe incafe-ingles.jpg" class="product__img"
+                                />
+                                <span class="discount">-22%</span>
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                </div>
+                                <h3>Bánh Hạt Cafe tan chảy</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="price">155.000đ <span>165.000đ</span></p>
+                            </div> 
+                        </div>
+                        <!--  -->
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img
+                                    src="anh/b11.png"
+                                    alt="Cafe Australiano" class="product__img"
+                                />
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh Dâu Tây 3 lớp</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">150.000đ</p>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img src="anh/b13.png" alt="Cafe Helado" class="product__img"/>
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh ChoCo Nhân kem</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">150.000đ</p>
+                            </div>
+                        </div>
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img src="anh/b5.png" alt="Cafe Helado" class="product__img"/>
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Banh Tart Trứng Phô Mai</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">50.000đ</p>
+                            </div>
+                        </div>
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img
+                                    src="anh/b9.png"
+                                    alt="Cafe Australiano" class="product__img"
+                                />
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh Canele Tan chảy</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">60.000đ</p>
+                            </div>
+                        </div>
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img
+                                    src="anh/b17.png"
+                                    alt="Cafe Australiano" class="product__img"
+                                />
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh Kiwi Dâu Tây</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">55.000đ</p>
+                            </div>
+                        </div>
+                        <div class="card-product">
+                            <div class="container-img">
+                                <img
+                                    src="anh/b12.png"
+                                    alt="Cafe Australiano" class="product__img"
+                                />
+                                <div class="button-group">
+                                    <span>
+                                        <i class='bx bx-heart'></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-search-alt' ></i>
+                                    </span>
+                                    <span>
+                                        <i class='bx bx-cart-add'></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="content-card-product">
+                                <div class="stars">
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bxs-star' ></i>
+                                    <i class='bx bx-star' ></i>
+                                </div>
+                                <h3>Bánh Chocolate Matcha</h3>
+                                <span class="add-cart">
+                                    <i class='bx bxs-cart-add' ></i>
+                                </span>
+                                <p class="product__price">270.000đ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!--==================== PRODUCTS ====================-->
+        <section class="product " id="products">
+            <div class="toolbar container" id="toolbar">
+                <button class="toggle-filter" id="filter-btn">BỘ LỌC <i class="ri-filter-line"></i></button>
+                <button class="highlight-btn">NỔI BẬT</button>
+                <div class="view-options">
+                    <button class="view-option grid active"><i class="ri-grid-fill"></i></button>
+                    <button class="view-option list"><i class="ri-list-unordered"></i></button>
+                </div>
+            </div>
+            
+            <!-- Dropdown Filter Menu -->
+            <div class="filter-menu" id="filter-menu">
+                <h3 class="filter-title">Tất cả các bộ sưu tập</h3>
+                <div class="btn__close" id="btn__close">
+                    <i class="ri-close-line"></i>
+                </div>
+                <ul class="filter-list">
+                    <li><label><input type="radio" name="filter"> Bánh Macaron</label></li>
+                    <li><label><input type="radio" name="filter"> Bánh ngọt Pháp</label></li>
+                    <li><label><input type="radio" name="filter"> Bánh nướng</label></li>
+                    <li><label><input type="radio" name="filter"> Bánh sinh nhật</label></li>
+                    <li><label><input type="radio" name="filter"> Bộ sưu tập Giáng Sinh 2024</label></li>
+                    <li><label><input type="radio" name="filter"> Coffee</label></li>
+                    <li><label><input type="radio" name="filter"> Juice</label></li>
+                    <li><label><input type="radio" name="filter"> Tea</label></li>
+                    <li><label><input type="radio" name="filter"> Tokyo Collection</label></li>
+                    <li><label><input type="radio" name="filter"> Trà sữa hương vị</label></li>
+                </ul>
+                <button class="show-more">Cho xem nhiều hơn</button>
+            </div>
+        
+            <div class="product__container grid">
+                <!-- Product 1 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/b2.png" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Macaron Oải Hương</h3>
+                        <span class="product__price">35.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/b2.1.png" alt="" class="pro__img-1">
+                            <img src="anh/b2.2.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Bánh macaron kiểu Pháp nhân lý chua đen và hoa oải hương</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 2 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/su1.jpg" alt="" class="product__img">
+                        <h3 class="product__title">Su kem Hạt Phỉ</h3>
+                        <span class="product__price">125.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/su2.jpg" alt="" class="pro__img-1">
+                            <img src="anh/su3.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Bánh chou craquelin, Kem bavaroise hạt phỉ, bánh, bánh sô-cô-la, praliné hạt phỉ, sốt caramel chảy.</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 3 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/b6.png" alt="" class="product__img">
+                        <h3 class="product__title">Tiramisu Lava</h3>
+                        <span class="product__price">110.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/b6.1.png" alt="" class="pro__img-1">
+                            <img src="anh/b6.2.png" alt="" class="pro__img-2">
+                            <p class="prod__title">Made with vanilla bean, rum. Cannelé is a sweet treat from South of France, Bordeaux city. No food coloring. No artificial ingredient.</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 4 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/b16.png" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Chuối dừa</h3>
+                        <span class="product__price">75.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/b16.1.jpg" alt="" class="pro__img-1">
+                            <img src="anh/b16.2.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Mứt chuối, mousse dừa, praliné hạt điều, bánh génoise, kem tươi chuối.</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 5 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/b7.png" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Sừng bò</h3>
+                        <span class="product__price">55.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/b7.1.png" alt="" class="pro__img-1">
+                            <img src="anh/b7.2.png" alt="" class="pro__img-2">
+                            <p class="prod__title">Bánh croissant kiểu Pháp cổ điển với nhân sốt trứng vịt muối và kem patissière. Được làm từ bơ Tourage của Pháp. Không có màu thực phẩm. Không có thành phần nhân tạo.</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 6 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/b11.png" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Kem lạnh Canele</h3>
+                        <span class="product__price">635.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/b11.1.jpg" alt="" class="pro__img-1">
+                            <img src="anh/b11.2.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Kem tiramisu, bánh lady finger thấm sốt mâm xôi, kem tươi, dâu tây, quả mọng tươi, thạch dâu và hoa hồng. Không màu thực phẩm. Không có thành phần nhân tạo. Ít ngọt.</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 7 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <img src="anh/qu1.jpg" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Mứt Cam</h3>
+                        <span class="product__price">95.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/qu2.jpg" alt="" class="pro__img-1">
+                            <img src="anh/qu3.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Mứt cam tươi, vị chua ngọt thanh quyện vào bánh tạo hương vị mát lạnh</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+        
+                <!-- Product 8 -->
+                <article class="product__card">
+                    <a href="favorite.html">
+                        <div class="product__circle"></div>
+                        <img src="anh/bk1.jpg" alt="" class="product__img">
+                        <h3 class="product__title">Bánh Kem Hoa lan</h3>
+                        <span class="product__price">700.000đ</span>
+                        <div class="product__none">
+                            <img src="anh/bk2.jpg" alt="" class="pro__img-1">
+                            <img src="anh/bk3.jpg" alt="" class="pro__img-2">
+                            <p class="prod__title">Mousse trà earl grey, thạch quả lý chua đen & oải hương, ganache trà earl grey, bánh lady fingers thấm oải hương. Có chứa Gluten, sữa, trứng, gelatin. 📏 15cm</p>
+                        </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+                <div class="product__pagination">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#"><i class='bx bx-chevrons-right'></i></a>
+                </div>
+            </div>
+        </section>
+        
+            <!-- <div class="product__container grid" ng=controller="SanPhamCtrl">
+                <article class="product__card" ng-repeat="item in listHD1">
+                    <a href="favorite.html" class="">
+                        <div class="product__circle"></div>
+    
+                            <img ng-src="anh/{{item.hinhAnh}}" alt="Product Image" class="product__img">
+    
+                            <h3 class="product__title">{{item.tenMatHang}}</h3>
+                            <span class="product__price">{{item.gia | currency : 'VND ' : 0}}</span>
+                            <div class="product__none">
+                                <img src="anh/b2.1.png" alt="" class="pro__img-1">
+                                <img src="anh/b2.2.jpg" alt="" class="pro__img-2">
+                                <p class="prod__title">{{item.moTa}}
+                                </p>
+                            </div>
+                    </a>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+            </div> -->
+        
+        
+     </main>
+     <footer class="footer section">
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <i class="ri-cake-3-fill"></i>Breads
+                </a>
+
+                <h3 class="footer__title">
+                    Đăng ký theo dõi chúng tôi <br> để cập nhật
+                </h3>
+
+                <div class="footer__subscribe">
+                    <input type="email" placeholder="Enter your email" class="footer__input">
+
+                    <button class="button button--flex footer__button">
+                        Subscribe
+                        <i class="ri-arrow-right-up-line button__icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Địa chỉ của chúng tôi</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">1234 - Nhân Hoà</li>
+                    <li class="footer__information">Mỹ Hanof - 43210</li>
+                    <li class="footer__information">123-456-789</li>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Liên Hệ</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">+999 888 777</li>
+                    
+                    <div class="footer__social">
+                        <a href="https://www.facebook.com/" class="footer__social-link">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" class="footer__social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://twitter.com/" class="footer__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">
+                    Chấp nhận tất cả thẻ tín dụng
+                </h3>
+
+                <div class="footer__cards">
+                    <img src="assets/img/card1.png" alt="" class="footer__card">
+                    <img src="assets/img/card2.png" alt="" class="footer__card">
+                    <img src="assets/img/card3.png" alt="" class="footer__card">
+                    <img src="assets/img/card4.png" alt="" class="footer__card">
+                </div>
+            </div>
+        </div>
+
+        <p class="footer__copy">&#169; Do Thi Xuan. Do an 2</p>
+    </footer>
+      <!--=============== SCROLL UP ===============-->
+      <a href="#" class="scrollup" id="scroll-up"> 
+        <i class="ri-arrow-up-fill scrollup__icon"></i>
+    </a>
+
+    <!--=============== SCROLL REVEAL ===============-->
+    <script src="scrollreveal.min.js"></script>
+
+      <!--=============== MAIN JS ===============-->
+      <script src="main.js"></script>
+
+   </body>
+</html>

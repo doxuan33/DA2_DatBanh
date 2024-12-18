@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+   <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular/global.js"></script>
+    <script src="js/angular/new.js"></script>
+    <title>Bánh BREADS</title>
+   </head>
+   <body ng-app="AppAdmin" >
+    <section id="news" ng-controller="NewsCtrl">
+        <div class="head-title">
+          <main>
+            <div class="left">
+              <h1>Bảng điều khiển</h1>
+              <ul class="breadcrumb">
+                <li><a href="#">Bảng điều khiển</a></li>
+                <li><i class="bx bx-chevron-right"></i></li>
+                <li><a class="active" href="#">Tin tức</a></li>
+              </ul>
+            </div>
+            <div class="data">
+              <div class="details">
+                <div class="recentOrders">
+                  <div class="cardHeader">
+                    <h2>Danh sách tin tức</h2>
+                    <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#addNewsModal" ng-click="resetForm()">+<i class="bx bx-news"></i></a>
+                  </div>
+                  <table class="table table-striped">
+                    <thead class="table-light">
+                      <tr>
+                        <th>STT</th>
+                        <th>ID</th>
+                        <th>Tiêu đề</th>
+                        <th>Nội dung</th>
+                        <th>Ngày đăng</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="newsList.length === 0">
+                        <td colspan="7">Không có tin tức nào!</td>
+                      </tr>
+                      <tr ng-repeat="news in newsList">
+                        <td>{{$index + 1}}</td>
+                        <td>{{news.tinTucID}}</td>
+                        <td>{{news.tieuDe}}</td>
+                        <td>{{news.noiDung}}</td>
+                        <td>{{news.ngayDang | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal" ng-click="selectNews(news)">
+                            Sửa
+                          </button>
+                          <button class="btn btn-danger" ng-click="deleteNews(news.tinTucID)">
+                            Xóa
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Modal: Thêm/Sửa tin tức -->
+            <div class="modal fade" id="addNewsModal" tabindex="-1" aria-labelledby="addNewsModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header" style="background-color: #f5f5dc;">
+                    <h5 class="modal-title">{{submit === "Thêm tin tức" ? "Thêm mới tin tức" : "Chỉnh sửa tin tức"}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form ng-submit="submitNews()" enctype="multipart/form-data">
+                        <div class="mt-3 text-center" ng-if="imageUrl">
+                            <img ng-src="{{imageUrl}}" alt="Ảnh tin tức" class="img-thumbnail" style="max-width: 300px;" />
+                        </div>
+                      <div class="row g-3">
+                        <div class="col-md-12">
+                          <label for="title" class="form-label">Tiêu đề</label>
+                          <input type="text" id="title" class="form-control" ng-model="tieuDe" placeholder="Nhập tiêu đề" required />
+                        </div>
+                        <div class="col-md-12">
+                          <label for="content" class="form-label">Nội dung</label>
+                          <textarea id="content" class="form-control" ng-model="noiDung" placeholder="Nhập nội dung" required></textarea>
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <label for="file" class="form-label">Hình ảnh</label>
+                          <input type="file" id="file" class="form-control" accept="image/*" onchange="angular.element(this).scope().onFileSelected(event)" />
+                        </div>
+                      </div>
+                      <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary">{{submit}}</button>
+                        <button type="button" class="btn btn-secondary" ng-click="resetForm()">Làm mới</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+    </section>
+      
+    
+      <!--=============== MAIN JS ===============-->
+   </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular/global.js"></script>
+
+    <title>Bánh BREADS</title>
+</head>
+
+<body ng-app="AppAdmin">
+
+    <section id="voucher" ng-controller="KhuyenMaiCtrl">
+        <script src="js/angular/voucher.js"></script>
+        <div class="head-title">
+            <main>
+                <div class="left">
+                    <h1>Bảng điều khiển</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Bảng điều khiển</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Khuyến mãi</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Form Thêm/Sửa Khuyến Mãi -->
+                <div class="card mb-4" >
+                    <div class="card-header bg-primary text-white">Thêm/Cập Nhật Khuyến Mãi</div>
+                    <div class="card-body">
+                        <form ng-submit="savePromotion()">
+                            <div class="mb-3">
+                                <label for="tenKhuyenMai" class="form-label">Tên Khuyến Mãi</label>
+                                <input type="text" class="form-control" id="tenKhuyenMai" ng-model="promotion.tenKhuyenMai" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngayBatDau" class="form-label">Ngày Bắt Đầu</label>
+                                <input type="date" class="form-control" id="ngayBatDau" ng-model="promotion.ngayBatDau" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngayKetThuc" class="form-label">Ngày Kết Thúc</label>
+                                <input type="date" class="form-control" id="ngayKetThuc" ng-model="promotion.ngayKetThuc" required>
+                            </div>
+    
+                            <h5>Danh Sách Chi Tiết Khuyến Mãi</h5>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Mã Mặt Hàng</th>
+                                        <th>Tên Mặt Hàng</th>
+                                        <th>Giá Khuyến Mãi</th>
+                                        <th>Hành Động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="detail in chiTietKhuyenMai">
+                                        <td>{{ detail.matHangID }}</td>
+                                        <td>{{ detail.tenMatHang }}</td>
+                                        <td>
+                                            <input type="number" class="form-control" ng-model="detail.giaKhuyenMai" 
+                                                 placeholder="Nhập giá khuyến mãi" ng-change="updateChiTietKhuyenMai(detail)">
+
+                                        </td>
+                                        <td>
+                                            <!-- Button to delete detail -->
+                                            <button type="button" class="btn btn-danger btn-sm" ng-click="removeMatHangFromChiTiet($index)">Xóa <i class='bx bxs-message-square-x'></i></button>
+                                            
+                                            <!-- Buttons to handle Add, Update, Delete status -->
+                                            <button type="button" class="btn btn-success btn-sm" ng-click="updateChiTietKhuyenMai(detail)">Cập Nhật <i class='bx bx-edit'></i></button>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+    
+                            <div class="mb-3">
+                                <label for="matHang" class="form-label">Chọn Mặt Hàng</label>
+                                <div class="d-flex align-items-center">
+                                    <select id="matHang" class="form-select me-2" ng-model="selectedMatHang" 
+                                            ng-options="item.matHangID as (item.tenMatHang + ' - ' + item.gia + ' VND') for item in matHangList">
+                                    </select>
+                                    <button type="button" class="btn btn-primary me-2" ng-click="addMatHangToChiTiet(selectedMatHang)">Thêm Mặt Hàng <i class='bx bxs-add-to-queue' ></i></button>
+                                    <div class="d-flex align-items-center" ng-if="selectedMatHang">
+                                        <img ng-src="anh/{{getMatHangImage(selectedMatHang)}}" alt="Hình ảnh mặt hàng" class="img-thumbnail" style="width: 70px; height: 70px; margin-left: 10px;">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <button type="submit" class="btn btn-success">{{isEditMode ? 'Cập Nhật Khuyến Mãi' : 'Lưu Khuyến Mãi'}} <i class='bx bxs-save' ></i></button>
+                            <button type="button" class="btn btn-secondary" ng-click="resetPromotion()">Hủy</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="container mt-4">
+                    <h2>Danh Sách Khuyến Mãi</h2>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID Khuyến Mãi</th>
+                                <th>Tên Khuyến Mãi</th>
+                                <th>Ngày Bắt Đầu</th>
+                                <th>Ngày Kết Thúc</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="promotion in promotions" ng-click="selectPro(promotion)" style="cursor: pointer;">
+                                <td>{{ promotion.khuyenMaiID }}</td>
+                                <td>{{ promotion.tenKhuyenMai }}</td>
+                                <td>{{ promotion.ngayBatDau | date:'dd-MM-yyyy' }}</td>
+                                <td>{{ promotion.ngayKetThuc | date:'dd-MM-yyyy' }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal" ng-click="selectPro(promotion)">Xem Chi Tiết <i class='bx bx-search-alt-2'></i></button>
+                                    <button type="button" class="btn btn-danger" ng-click="deletePromotion(promotion.khuyenMaiID)">Xoá <i class='bx bxs-message-square-x'></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modal Hiển Thị Chi Tiết Khuyến Mãi -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel">Chi Tiết Khuyến Mãi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Tên Khuyến Mãi: {{ promotion.tenKhuyenMai }}</h5>
+                        <h6>Ngày Bắt Đầu: {{ promotion.ngayBatDau | date:'yyyy-MM-dd' }}</h6>
+                        <h6>Ngày Kết Thúc: {{ promotion.ngayKetThuc | date:'yyyy-MM-dd' }}</h6>
+    
+                        <h5 class="mt-4">Danh Sách Chi Tiết Khuyến Mãi</h5>
+                        <table class="table table-bordered" ng-if="chiTietKhuyenMai.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>Mã Mặt Hàng</th>
+                                    <th>Giá Khuyến Mãi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="detail in chiTietKhuyenMai">
+                                    <td>{{ detail.matHangID }}</td>
+                                    <td>{{ detail.tenMatHang }}</td>
+                                    <td>{{ detail.giaKhuyenMai | currency : '' }} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p ng-if="chiTietKhuyenMai.length === 0">Khuyến mãi này chưa có mặt hàng khuyến mãi.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+
+</html>

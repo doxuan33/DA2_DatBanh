@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/favo-sty.css">
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular/user.js"></script>
+    <script src="jquery-3.7.1.js" type="text/javascript"></script> 
+    <title>Bánh BREADS</title>
+      <script>
+        $(document).ready(function () {
+            let data = JSON.parse(localStorage.getItem("orderDetails"));
+
+            if (data) {
+                let content = `
+                    <div class="home__container container grid">
+                        <img class="image__none" src="${data.photo}" />
+                        <div class="home__data">
+                            <h1 class="home__title">${data.name}</h1>
+                            <h3 class="favorite__title">${data.price}</h3>
+                            <hr size="1" color="hsl(22, 31%, 24%)" /><br />
+                            <p>${data.name}<br/>${data.header}</p><br />
+                            <hr size="1" color="hsl(22, 31%, 24%)" /><br /><br />
+                            <button class="order-quan button" onclick="changeAmount('txtAmount', -1)">−</button>
+                            <input id="txtAmount" type="text" value="1" class="quantity" style="width: 50px; text-align: center;" />
+                            <button class="order-quan button" onclick="changeAmount('txtAmount', 1)">+</button>
+                            <a href="shop.html" class="button__favorite button">Danh sách bánh</a>
+                        </div>
+                        <div class="image__favorite">
+                            <img id="image__main" src="${data.photo}" />
+                            <div class="image__footer footer__social">
+                                <img src="${data.photo}" />
+                                <img src="${data.photo1}" />
+                                <img src="${data.photo2}" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                `;
+                $("#content").html(content);
+
+                $(".image__footer img").click(function () {
+                    $("#image__main").attr("src", $(this).attr("src"));
+                });
+            }
+        });
+
+        // Helper function to change product quantity
+        function changeAmount(id, delta) {
+            let input = document.getElementById(id);
+            let value = parseInt(input.value) + delta;
+            if (value > 0) input.value = value;
+        }
+
+      </script>
+   </head>
+   <body ng-app="AppAdmin">
+    <header class="header" id="header" ng-controller="UserCtrl">
+        <nav class="nav container" class="nav">
+            <a href="index.html" class="nav__logo">
+                <i class="ri-cake-3-fill"></i>Breads</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Trang chủ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="home.html" class="nav__link">Giới thiệu</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="new.html" class="nav__link">Tin tức</a>
+                    </li>
+                    <li class="nav__item">
+                        <div class="dropdown" id="dropdown">
+                            <a href="prod.html" class="nav__link">Sản phẩm </a>
+                            <div class="dropdown-content" id="dropdownMenu">
+                                <a href="prod.html">Bánh Macaron</a>
+                                <a href="prod.html">Bánh nướng</a>
+                                <a href="prod.html">Bánh bông lan</a>
+                                <a href="prod.html">Bán Pháp</a>
+                                <a href="prod.html">Bánh kem</a>
+                                <a href="prod.html">Đồ uống</a>
+                            </div> 
+                        </div>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">Liên hệ</a>
+                    </li>
+                    <li class="nav__item" id="cart">
+                        <a href="shop.html" class="notification">
+                            <i class='bx bxs-cart-download'></i>
+                            <span class="num">0</span>
+                        </a>
+                   </li>
+                   <li class="nav__item card__article" ng-controller="UserCtrl">
+                    <!-- Liên kết điều hướng đến trang profile -->
+                    <a href="profile.html" id="user" class="nav__link">
+                        <!-- Hiển thị biểu tượng nếu chưa đăng nhập -->
+                        <i class="ri-user-fill" ng-if="!currentUser"></i>
+                        <!-- Hiển thị ảnh đại diện nếu người dùng đã đăng nhập -->
+                        <img class="profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                    </a>
+                    <!-- Thông tin người dùng hiển thị khi hover -->
+                    <div class="card__tooltip" ng-if="currentUser">
+                        <div class="card__content">
+                            <a href="profile.html">
+                                <img class="card__profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                            </a>
+                            <div class="card__data">
+                                <p><strong>Tên:</strong> {{currentUser.tenDangNhap}}</p>
+                                <p><strong>Email:</strong> {{currentUser.email}}</p>
+                                <p ng-if="currentUser.quyenHan === 'Admin'"><strong>Quyền:</strong> Admin</p>
+                                <p ng-if="currentUser.quyenHan !== 'Admin'"><strong>Quyền:</strong> Người dùng</p>
+                                <a href="#" class="card__button" ng-click="logout()">
+                                    <i class='bx bxs-log-out-circle'></i>
+                                    <span class="text">Đăng Xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                                   
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav__btns">
+                <!-- Theme change button -->
+                <i class="ri-moon-line change-theme" id="theme-button"></i>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+     <!-- main -->
+     <main class="main">
+        
+        <div id="content" class="section">
+            
+        </div>
+        <div class="tab__tab container grid section">
+            <div class="tabs">
+                <div class="tab active" data-tab="description">MÔ TẢ CHUNG</div>
+                <div class="tab" data-tab="comments">BÌNH LUẬN</div>
+            </div>
+            
+            <div id="description" class="tab-content active">
+                <ul>
+                    <li>Kích thước tùy chọn</li>
+                    <li>Giao hàng miễn phí</li>
+                    <li>...</li>
+                </ul>
+            </div>
+            <div id="comments" class="tab-content">
+                <p>Chưa có bình luận nào.</p>
+            </div>
+        </div>
+        <div class="new section" id="new">
+            <div class="new__container container grid">
+                 <div class="new__content grid">
+                     <article class="new__card">
+                         <div class="new__data">
+                             <h2 class="new__title">Cà phê</h2>
+                             <p class="new__drescription">Hương vị thơm đắng của cafe kết hợp với sự ngọt ngào của bánh sẽ mang đến một hương vị khiến khách hàng khó quên. 
+                                Các loại cà phê mà bạn có thể phục vụ trong menu đồ uống trà bánh của bạn đó là cafe đen, cafe sữa truyền thống, capuchino, latte, mocha, espresso. 
+                            </p>
+                         </div>
+                         <img src="anh/du1.jpg" alt="" class="new__img"></img>
+                     </article>
+                     <article class="new__card">
+                         <div class="new__data">
+                             <h2 class="new__title">Các loại nước trái cây</h2>
+                             <p class="new__drescription">Các loại nước ép với hàm lượng chất xơ và dinh dưỡng 
+                                cao luôn được nhiều người lựa chọn. Một số loại nước ép như dưa, dứa, cóc, táo, cam…. 
+                                Các loại sinh tố hoa quả cũng là nhóm đồ uống mà menu nào cũng
+                                 lên có như sinh tố bơ, chanh tuyết, việt quất…
+                             </p>
+                         </div>
+                         <img src="anh/du2.jpg" alt="" class="new__img"></img>
+                     </article>
+                     <article class="new__card">
+                         <div class="new__data">
+                             <h2 class="new__title">Các loại trà</h2>
+                             <p class="new__drescription">Đây là một trong những loại đồ uống kết hợp với bánh hoàn hảo nhất. Cho dù là trà nóng hay lạnh cũng rất cần thiết trong menu đồ uống trà bánh của bạn. 
+                                Cách pha chế đơn giản nhưng cho hương vị thơm ngon như trà đào cam sả, trà tóa bạc  hà, trà thảo mộc….sẽ khiến cho quán của bạn có thể phục vụ khách hàng hiệu quả hơn.
+                             </p>
+                         </div>
+                         <img src="anh/du3.jpg" alt="" class="new__img"></img>
+                     </article>
+                 </div>
+                 
+            </div>
+         </div>
+     </main>
+     <footer class="footer section">
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <i class="ri-cake-3-fill"></i>Breads
+                </a>
+
+                <h3 class="footer__title">
+                    Đăng ký theo dõi chúng tôi <br> để cập nhật
+                </h3>
+
+                <div class="footer__subscribe">
+                    <input type="email" placeholder="Enter your email" class="footer__input">
+
+                    <button class="button button--flex footer__button">
+                        Subscribe
+                        <i class="ri-arrow-right-up-line button__icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Địa chỉ của chúng tôi</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">1234 - Nhân Hoà</li>
+                    <li class="footer__information">Mỹ Hanof - 43210</li>
+                    <li class="footer__information">123-456-789</li>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Liên Hệ</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">+999 888 777</li>
+                    
+                    <div class="footer__social">
+                        <a href="https://www.facebook.com/" class="footer__social-link">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" class="footer__social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://twitter.com/" class="footer__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">
+                    Chấp nhận tất cả thẻ tín dụng
+                </h3>
+
+                <div class="footer__cards">
+                    <img src="assets/img/card1.png" alt="" class="footer__card">
+                    <img src="assets/img/card2.png" alt="" class="footer__card">
+                    <img src="assets/img/card3.png" alt="" class="footer__card">
+                    <img src="assets/img/card4.png" alt="" class="footer__card">
+                </div>
+            </div>
+        </div>
+
+        <p class="footer__copy">&#169; Do Thi Xuan. Do an 2</p>
+    </footer>
+     <!--=============== SCROLL UP ===============-->
+     <a href="#" class="scrollup" id="scroll-up"> 
+        <i class="ri-arrow-up-fill scrollup__icon"></i>
+    </a>
+
+    <!--=============== SCROLL REVEAL ===============-->
+    <script src="scrollreveal.min.js"></script>
+
+      <!--=============== MAIN JS ===============-->
+      <script src="main.js"></script>
+   </body>
+</html>

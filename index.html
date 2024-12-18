@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="css/prod.css">
+        <script src="jquery-3.7.1.js" type="text/javascript"></script> 
+        <script src="js/angular/angular.min.js"></script>
+        <script src="js/angular/user.js"></script>
+        <title>Bánh BREADS</title>
+        <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+    </head>
+    <body ng-app="AppAdmin">
+        <!--==================== HEADER ====================-->
+        <header class="header" id="header" ng-controller="UserCtrl">
+            <nav class="nav container" class="nav">
+                <a href="index.html" class="nav__logo">
+                    <i class="ri-cake-3-fill"></i>Breads</a>
+    
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="index.html" class="nav__link">Trang chủ</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="home.html" class="nav__link">Giới thiệu</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="new.html" class="nav__link">Tin tức</a>
+                        </li>
+                        <li class="nav__item">
+                            <div class="dropdown" id="dropdown">
+                                <a href="prod.html" class="nav__link">Sản phẩm </a>
+                                <div class="dropdown-content" id="dropdownMenu">
+                                    <a href="prod.html">Bánh Macaron</a>
+                                    <a href="prod.html">Bánh nướng</a>
+                                    <a href="prod.html">Bánh bông lan</a>
+                                    <a href="prod.html">Bán Pháp</a>
+                                    <a href="prod.html">Bánh kem</a>
+                                    <a href="prod.html">Đồ uống</a>
+                                </div> 
+                            </div>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Liên hệ</a>
+                        </li>
+                        <li class="nav__item" id="cart">
+                            <a href="shop.html" class="notification nav__link">
+                                <i class='bx bxs-cart-download'></i>
+                                <span class="num">0</span>
+                            </a>
+                       </li>
+                       <li class="nav__item card__article" ng-controller="UserCtrl">
+                        <!-- Liên kết điều hướng đến trang profile -->
+                        <a href="profile.html" id="user" class="nav__link">
+                            <!-- Hiển thị biểu tượng nếu chưa đăng nhập -->
+                            <i class="ri-user-fill" ng-if="!currentUser"></i>
+                            <!-- Hiển thị ảnh đại diện nếu người dùng đã đăng nhập -->
+                            <img class="profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                        </a>
+                        <!-- Thông tin người dùng hiển thị khi hover -->
+                        <div class="card__tooltip" ng-if="currentUser">
+                            <div class="card__content">
+                                <a href="profile.html">
+                                    <img class="card__profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                                </a>
+                                <div class="card__data">
+                                    <p><strong>Tên:</strong> {{currentUser.tenDangNhap}}</p>
+                                    <p><strong>Email:</strong> {{currentUser.email}}</p>
+                                    <p ng-if="currentUser.quyenHan === 'Admin'"><strong>Quyền:</strong> Admin</p>
+                                    <p ng-if="currentUser.quyenHan !== 'Admin'"><strong>Quyền:</strong> Người dùng</p>
+                                    <a href="login.html" class="card__button" ng-click="logout()">
+                                        <i class='bx bxs-log-out-circle'></i>
+                                        <span class="text">Đăng xuất</span>
+                                    </a>
+                                    <a href="checkorder.html" class="card__button">
+                                        <i class='bx bx-clipboard'></i>
+                                        <span class="text">Đơn hàng của tôi</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                                       
+                    </ul>
+                    <div class="nav__close" id="nav-close">
+                        <i class="ri-close-line"></i>
+                    </div>
+                </div>
+    
+                <div class="nav__btns">
+                    <!-- Theme change button -->
+                    <i class="ri-moon-line change-theme" id="theme-button"></i>
+    
+                    <div class="nav__toggle" id="nav-toggle">
+                        <i class="ri-menu-line"></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="main" id="main-content">
+            <!--==================== HOME ====================-->
+            <section class="home section" id="home">
+                <div class="home__container container grid">
+                    <img src="anh/noel-bg.png" alt="" class="home__bg">
+                    <!-- <video width="640" height="360" controls autoplay muted loop class="home__bg">
+                        <source src="anh/home.mp4" type="video/mp4">
+                      </video> -->
+                    <div class="home__shadow"></div>
+                    <img src="anh/home-bread.png" alt="image" class="home__img">
+                    
+                    <div class="home__data">
+                        <h1 class="home__title" style="color: rgb(254, 249, 174);">
+                            Tiệm bánh Breads
+                        </h1>
+                        <p class="home__description">
+                            Tình yêu bắt đầu bằng chiếc bánh thơm. 
+                            Add fresness to your new ideas.
+                        </p>
+                        <a href="#about" class="button button--flex">
+                            Xem thêm <i class="ri-arrow-right-down-line button__icon"></i>
+                        </a>
+                        
+                    </div>
+                    <div class="home__social">
+                        <span class="home__social-follow">Follow Us</span>
+
+                        <div class="home__social-links">
+                            <a href="https://www.facebook.com/" target="_blank" class="home__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank" class="home__social-link">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="https://twitter.com/" target="_blank" class="home__social-link">
+                                <i class="ri-twitter-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="product section" id="products">
+                <h2 class="section__title-center">
+                    Bộ sưu tập Noel
+                </h2>
+                <div class="container-products ">
+                    <!-- Producto 1 -->
+                    <div class="card-product">
+                        <div class="container-img">
+                            <img src="anh/bnoel2.jpg" alt="Cafe Irish" class="product__img"/>
+                            <span class="discount">-13%</span>
+                            <div class="button-group">
+                                <span>
+                                    <i class='bx bx-heart'></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-search-alt' ></i>
+                                </span>
+                                <span class="add">
+                                    <i class='bx bx-cart-add'></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content-card-product">
+                            <div class="stars">
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bx-star' ></i>
+                            </div>
+                            <h3 class="product__title">Bánh Thiên Thần Dừa và Ổi</h3>
+                            <span class="add-cart">
+                                <i class='bx bxs-cart-add' ></i>
+                            </span>
+                            <p class="price">95.000 <span>110.000</span></p>
+                        </div>
+                    </div>
+                    <!-- Producto 2 -->
+                    <div class="card-product">
+                        <div class="container-img">
+                            <img
+                                src="anh/bnoel3.jpg"
+                                alt="Cafe incafe-ingles.jpg" class="product__img"
+                            />
+                            <span class="discount">-20%</span>
+                            <div class="button-group">
+                                <span>
+                                    <i class='bx bx-heart'></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-search-alt' ></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-cart-add'></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content-card-product">
+                            <div class="stars">
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                            </div>
+                            <h3 class="product__title">Socolate Bomb Tuần Lộc</h3>
+                            <span class="add-cart">
+                                <i class='bx bxs-cart-add' ></i>
+                            </span>
+                            <p class="price">64.000 <span>80.000</span></p>
+                        </div> 
+                    </div>
+                    <!--  -->
+                    <div class="card-product">
+                        <div class="container-img">
+                            <img
+                                src="anh/bnoel1.jpg"
+                                alt="Cafe Australiano" class="product__img"
+                            />
+                            <span class="discount">-25%</span>
+                            <div class="button-group">
+                                <span>
+                                    <i class='bx bx-heart'></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-search-alt' ></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-cart-add'></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content-card-product">
+                            <div class="stars">
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                            </div>
+                            <h3 class="product__title">Tháp Bánh Chou Matcha Anh Đào</h3>
+                            <span class="add-cart">
+                                <i class='bx bxs-cart-add' ></i>
+                            </span>
+                            <p class="price">480.000 <span>640.000</span></p>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="card-product">
+                        <div class="container-img">
+                            <img src="anh/bnoel4.jpg" alt="Cafe Helado" class="product__img"/>
+                            <div class="button-group">
+                                <span>
+                                    <i class='bx bx-heart'></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-search-alt' ></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-cart-add'></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content-card-product">
+                            <div class="stars">
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bx-star' ></i>
+                            </div>
+                            <h3 class="product__title">Bánh Chou Matcha Anh Đào Mini</h3>
+                            <span class="add-cart">
+                                <i class='bx bxs-cart-add' ></i>
+                            </span>
+                            <p class="price">100.000</p>
+                        </div>
+                    </div>
+                    <div class="card-product">
+                        <div class="container-img">
+                            <img src="anh/bnoel5.jpg" alt="Cafe Helado" class="product__img"/>
+                            <div class="button-group">
+                                <span>
+                                    <i class='bx bx-heart'></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-search-alt' ></i>
+                                </span>
+                                <span>
+                                    <i class='bx bx-cart-add'></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content-card-product">
+                            <div class="stars">
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bxs-star' ></i>
+                                <i class='bx bx-star' ></i>
+                            </div>
+                            <h3 class="product__title">Bánh Khúc Cây Caramen Chanh Dây</h3>
+                            <span class="add-cart">
+                                <i class='bx bxs-cart-add' ></i>
+                            </span>
+                            <p class="price">350.000</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="step section" id="step">
+                <div class="step__container container grid" id="imageContainer">
+                    <img src="anh/ad7.png" alt="" class="step__image">
+                    <img src="anh/ad5.jpg" alt="" class="step__image">
+                    <img src="anh/ad6.jpg" alt="" class="step__image">
+                    <img src="anh/ad2.jpg" alt="" class="step__image">
+                    <img src="anh/ad4.jpg" alt="" class="step__image">
+                    <img src="anh/ad1.jpg" alt="" class="step__image">
+                </div>
+            </div>
+            <!--==================== ABOUT ====================-->
+            <section class="about section container" id="about">
+                <div class="about__container grid">
+                    <div class="about__image">
+                        <img src="anh/about1.jpg" alt="" class="about__img">
+                        <img src="anh/about2.jpg" alt="" class="about__img">
+                        <img src="anh/about3.jpg" alt="" class="about__img">
+                        <img src="anh/about4.jpg" alt="" class="about__img">
+                    </div>
+                    
+                    <div class="about__data">
+                        <h2 class="section__title about__title">
+                            Bánh tươi ngon, tốt cho sức khỏe, nhiều vị!
+                        </h2>
+                        <p class="about__description">
+                            Bánh được làm từ những nguyên liệu tươi ngon, chất lượng cao, đảm bảo hương vị thơm ngon, hấp dẫn.
+                        </p>
+
+                        <div class="about__details">
+                            <p class="about__details-description">
+                                <i class="ri-checkbox-fill about__details-icon"></i>
+                                Bữa sáng thơm ngon và nhanh chóng và đầy đủ dinh dưỡng
+                            </p>
+                            <p class="about__details-description">
+                                <i class="ri-checkbox-fill about__details-icon"></i>
+                                Bánh mì cung cấp các chất dinh dưỡng cần thiết như carbohydrate, protein và chất xơ.
+                            </p>
+                            <p class="about__details-description">
+                                <i class="ri-checkbox-fill about__details-icon"></i>
+                                Kết hợp bánh mì các loại nguyên liệu tạo nên món ăn đủ chất dinh dưỡng
+                            </p>
+                            <p class="about__details-description">
+                                <i class="ri-checkbox-fill about__details-icon"></i>
+                                Bánh được làm 100% từ nguyên liệu tươi mới kết hợp tuyệt vời với mọi loại thức uống
+                            </p>
+                        </div>
+
+                        <a href="#products" class="button--link button--flex">
+                            Tìm hiểu Menu <i class="ri-file-list-3-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <div class="new section container" id="new">
+                <div class="new__container container grid">
+                     <div class="new__content grid">
+                         <article class="new__card">
+                             <div class="new__data">
+                                 <h2 class="new__title">Bánh Croissant</h2>
+                                 <p class="new__drescription">Bánh Croissant nguyên bản xuất phát từ nước Áo. 
+                                     Bánh sừng bò có vị ngọt thanh nhẹ, giòn tan bên ngoài và hơi xốp bên trong</p>
+                             </div>
+                             <img src="anh/new1.jpg" alt="" class="new__img"></img>
+                         </article>
+                         <article class="new__card">
+                             <div class="new__data">
+                                 <h2 class="new__title">Bánh Éclair</h2>
+                                 <p class="new__drescription">Trong các loại bánh mì của Pháp, có một loại được mệnh danh là bánh nữ công tước, đó chính là Éclair.</p>
+                             </div>
+                             <img src="anh/new2.jpg" alt="" class="new__img"></img>
+                         </article>
+                         <article class="new__card">
+                             <div class="new__data">
+                                 <h2 class="new__title">Bánh mì Baguette</h2>
+                                 <p class="new__drescription">Nếu nói về độ phổ biến, chắc chắn bánh mì Baguette là loại bánh mì Pháp được nhiều người đón nhận nhất. Tại Pháp, đây được xem là loại bánh mì quốc dân xuất hiện ở mọi nơi trên đường phố.</p>
+                             </div>
+                             <img src="anh/new3.png" alt="" class="new__img"></img>
+                         </article>
+                     </div>
+                     
+                     <a href="#products" class="new__button button">Loại bánh khác</a>
+                </div>
+             </div>
+            <!--==================== STEPS ====================-->
+            <section class="steps section container">
+                <div class="steps__bg">
+                    <h2 class="section__title-center steps__title">
+                        Các bước để có được chiếc bánh ngon của bạn đúng cách
+                    </h2>
+
+                    <div class="steps__container grid">
+                        <div class="steps__card">
+                            <div class="steps__card-number">01</div>
+                            <h3 class="steps__card-title">Chọn bánh</h3>
+                            <p class="steps__card-description">
+                                Chúng tôi có rất nhiều loại bánh bạn có thể lựa chọn.
+                            </p>
+                        </div>
+
+                        <div class="steps__card">
+                            <div class="steps__card-number">02</div>
+                            <h3 class="steps__card-title">Đặt hàng</h3>
+                            <p class="steps__card-description">
+                                Sau khi đơn hàng của bạn được thiết lập, chúng tôi sẽ chuyển sang bước tiếp theo là vận chuyển.
+                            </p>
+                        </div>
+
+                        <div class="steps__card">
+                            <div class="steps__card-number">03</div>
+                            <h3 class="steps__card-title">Nhận bánh của mình</h3>
+                            <p class="steps__card-description">
+                                Quy trình giao hàng của chúng tôi rất dễ dàng, bạn nhận bánh trực tiếp đến tận nhà.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--==================== PRODUCTS ====================-->
+            <section class="product section container" id="products">
+                <h2 class="section__title-center">
+                    Tìm hiểu thêm <br> Sản phẩm của chúng tôi
+                </h2>
+
+                <p class="product__description">
+                    Dưới đây là một số loại bánh được chọn từ bếp của chúng tôi, tất cả đều tươi ngon và được đánh giá cao về hương vị.
+                     Hãy mua và tận hưởng chất lượng tốt nhất.
+                </p>
+
+                <div class="product__container grid">
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+        
+                                <img src="anh/b2.png" alt="" class="product__img">
+        
+                                <h3 class="product__title">Bánh Macaron Oải Hương</h3>
+                                <span class="product__price">35.000đ</span>
+                                <div class="product__none">
+                                    <img src="anh/b2.1.png" alt="" class="pro__img-1">
+                                    <img src="anh/b2.2.jpg" alt="" class="pro__img-2">
+                                    <p class="prod__title">Bánh macaron kiểu Pháp nhân lý chua đen và hoa oải hương
+                                    </p>
+                                </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+        
+                                <img src="anh/su1.jpg" alt="" class="product__img">
+        
+                                <h3 class="product__title">Su kem Hạt Phỉ</h3>
+                                <span class="product__price">125.000đ</span>
+                                <div class="product__none">
+                                    <img src="anh/su2.jpg" alt="" class="pro__img-1">
+                                    <img src="anh/su3.jpg" alt="" class="pro__img-2">
+                                    <p class="prod__title">Bánh chou craquelin, Kem bavaroise hạt phỉ, bánh, bánh sô-cô-la, praliné hạt phỉ, sốt caramel chảy.
+
+                                    </p>
+                                </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+    
+                            <img src="anh/b6.png" alt="" class="product__img">
+    
+                            <h3 class="product__title">Tiramisu Lava</h3>
+                            <span class="product__price">110.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/b6.1.png" alt="" class="pro__img-1">
+                                <img src="anh/b6.2.png" alt="" class="pro__img-2">
+                                <p class="prod__title">Made with vanilla bean, rum.<br/>
+
+                                    *Cannelé is a sweet treat from South of France, Bordeaux city.
+                                    <br/>
+                                    No food coloring<br/>
+                                    No artificial ingredient
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+    
+                            <img src="anh/b16.png" alt="" class="product__img">
+    
+                            <h3 class="product__title">Bánh Chuối dừa</h3>
+                            <span class="product__price">75.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/b16.1.jpg" alt="" class="pro__img-1">
+                                <img src="anh/b16.2.jpg" alt="" class="pro__img-2">
+                                <p class="prod__title">Mứt chuối, mousse dừa, praliné hạt điều, bánh génoise, kem tươi chuối.
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+    
+                            <img src="anh/b7.png" alt="" class="product__img">
+    
+                            <h3 class="product__title">Bánh Sừng bò</h3>
+                            <span class="product__price">55.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/b7.1.png" alt="" class="pro__img-1">
+                                <img src="anh/b7.2.png" alt="" class="pro__img-2">
+                                <p class="prod__title">Bánh croissant kiểu Pháp cổ điển với nhân sốt trứng vịt muối và kem patissière.
+                                    <br/>
+                                    Được làm từ bơ Tourage của Pháp. 
+                                    <br/>
+                                     Không có màu thực phẩm<br/>
+                                     Không có thành phần nhân tạo
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+    
+                            <img src="anh/b11.png" alt="" class="product__img">
+    
+                            <h3 class="product__title">Bánh Kem lạnh Canele</h3>
+                            <span class="product__price">635.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/b11.1.jpg" alt="" class="pro__img-1">
+                                <img src="anh/b11.2.jpg" alt="" class="pro__img-2">
+                                <p class="prod__title">Kem tiramisu, bánh lady finger thấm sốt mâm xôi, kem tươi, dâu tây, quả mọng tươi, thạch dâu và hoa hồng.
+                                    <br/>
+                                    Không màu thực phẩm<br>
+                                    Không có thành phần nhân tạo
+                                    Ít ngọt
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+                            <img src="anh/qu1.jpg" alt="" class="product__img">
+    
+                            <h3 class="product__title">Bánh Mứt Cam</h3>
+                            <span class="product__price">95.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/qu2.jpg" alt="" class="pro__img-1">
+                                <img src="anh/qu3.jpg" alt="" class="pro__img-2">
+                                <p class="prod__title">Mứt cam tươi, vị chua ngọt thanh quyện vào bánh tạo hương vị mát lạnh
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                    <article class="product__card">
+                        <a href="favorite.html" class="">
+                            <div class="product__circle"></div>
+    
+                            <img src="anh/bk1.jpg" alt="" class="product__img">
+    
+                            <h3 class="product__title">Bánh Kem Hoa lan</h3>
+                            <span class="product__price">700.000đ</span>
+                            <div class="product__none">
+                                <img src="anh/bk2.jpg" alt="" class="pro__img-1">
+                                <img src="anh/bk3.jpg" alt="" class="pro__img-2">
+                                <p class="prod__title">Mousse trà earl grey, thạch quả lý chua đen & oải hương, ganache trà earl grey, bánh lady fingers thấm oải hương.
+                                    <br/>
+                                    🥜 Có chứa Gluten, sữa, trứng, gelatin<br/>
+                                    📏 15cm
+                                </p>
+                            </div>
+                        </a>
+                        <button class="button--flex product__button">
+                            <i class="ri-shopping-bag-line"></i>
+                        </button>
+                    </article>
+                </div>
+            </section>
+
+            <!--==================== QUESTIONS ====================-->
+            <section class="questions section" id="faqs">
+                <h2 class="section__title-center questions__title container">
+                    Một số câu hỏi thường gặp 
+                </h2>
+
+                <div class="questions__container container grid">
+                    <div class="questions__group">
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Bánh có hạn sử dụng trong bao lâu?
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Bánh được làm mới trong ngày nên hạn sử dụng chhỉ trong 48h. 
+                                    Khi quý khách nhận được bánh vui lòng sử dụng luôn để thưởng thức nguyên vẹn hương vị chiếc bánh.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Mỗi loại bánh ngọt phù hợp với loại đồ uống nào?
+                                    
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Bất kỳ loại đồ uống nào đều phù hợp với bánh của chúng tôi.
+                                    Chúng tôi có thể đề cử cho bạn 1 số thức uống như: hồng trà, latte, capuchino, ...
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Nguyên liệu làm bánh có được đảm bảo không?
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Tiệm bánh đảm bảo với quý khách rằng mỗi một nguyên liệu làm nên chiếc bánh đều tươi mới có nguồn gốc và chứng nhận.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="questions__group">
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Bánh thường được vận chuyển trong vòng bao lâu?
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Tuỳ vào từng địa chỉ nhận bánh nhưng chúng tôi đảm bảo bạn sẽ nhận được chiếc bánh tươi mới không quá 1h vận chuyển.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Khu vực có thể ship bánh thuộc phạm vi nào?
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Chúng tôi sẵn sàng đưa chiếc bánh đến tận tay quý khách trong phạm vi bán kính 30km.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="questions__item">
+                            <header class="questions__header">
+                                <i class="ri-add-line questions__icon"></i>
+                                <h3 class="questions__item-title">
+                                    Làm thế nào để chọn được loại bánh mà tôi ưng ý?
+                                </h3>
+                            </header>
+
+                            <div class="questions__content">
+                                <p class="questions__description">
+                                    Chúng tôi có chuyên viên tư vấn chuyên nghiệp. Chỉ cần bạn liên hệ chúng tôi sẽ giúp bạn chọn ra chiếc bánh mà bạn ưng ý nhất.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--==================== CONTACT ====================-->
+            <section class="contact section container" id="contact">                
+                <div class="contact__container grid">
+                    <div class="contact__box">
+                        <h2 class="section__title">
+                            Hãy liên hệ và góp ý với chúng tôi khi có vấn đề <br>
+                            Qua thông tin dưới đây
+                        </h2>
+
+                        <div class="contact__data">
+                            <div class="contact__information">
+                                <h3 class="contact__subtitle">Gọi chungd tôi để được hỗ trợ</h3>
+                                <span class="contact__description">
+                                    <i class="ri-phone-line contact__icon"></i>
+                                    +999 888 777
+                                </span>
+                            </div>
+
+                            <div class="contact__information">
+                                <h3 class="contact__subtitle">Liên hệ qua email</h3>
+                                <span class="contact__description">
+                                    <i class="ri-mail-line contact__icon"></i>
+                                    tiembanhbread@email.com
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="" class="contact__form">
+                        <div class="contact__inputs">
+                            <div class="contact__content">
+                                <input type="email" placeholder=" " class="contact__input">
+                                <label for="" class="contact__label">Email</label>
+                            </div>
+
+                            <div class="contact__content">
+                                <input type="text" placeholder=" " class="contact__input">
+                                <label for="" class="contact__label">Subject</label>
+                            </div>
+
+                            <div class="contact__content contact__area">
+                                <textarea name="message" placeholder=" " class="contact__input"></textarea>                              
+                                <label for="" class="contact__label">Message</label>
+                            </div>
+                        </div>
+
+                        <button class="button button--flex">
+                            Đặt hàng ngay
+                            <i class="ri-arrow-right-up-line button__icon"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+            <section class="visit section" id="visit">
+                <div class="visit__container">
+                     <img src="anh/a4.jpg" alt="" class="visit__bg">
+                     <div class="visit__shadow"></div>
+                     <div class="visit__content container grid">
+                         <div class="visit__data">
+                             <h2 class="section__title">Chi nhánh Breads</h2>
+                             <p class="visit__description">Breads Thảo Điền<br/>
+                                 Tiệm Bánh Mặn, Ngọt, Bistro và Bar
+                                 16 Thảo Điền, Quận 2, TP.HCM
+                             </p><br/>
+                             <p class="visit__description">Breads Hồ Con Rùa<br/>
+                                 Tiệm Bánh Mặn và Ngọt
+                                 47 Trần Cao Vân, Quận 3, TP.HCM
+                             </p><br/>
+                             <p class="visit__description">Breads Pasteur<br/>
+                                 Tiệm Bánh Mặn và Ngọt
+                                 244 Pasteur, Quận 3, TP.HCM
+                             </p><br/>
+                         </div>
+                     </div>
+                </div>
+             </section>
+        </main>
+
+        <!--==================== FOOTER ====================-->
+        <footer class="footer section">
+            <div class="footer__container container grid">
+                <div class="footer__content">
+                    <a href="#" class="footer__logo">
+                        <i class="ri-cake-3-fill"></i>Breads
+                    </a>
+
+                    <h3 class="footer__title">
+                        Đăng ký theo dõi chúng tôi <br> để cập nhật
+                    </h3>
+
+                    <div class="footer__subscribe">
+                        <input type="email" placeholder="Enter your email" class="footer__input">
+
+                        <button class="button button--flex footer__button">
+                            Subscribe
+                            <i class="ri-arrow-right-up-line button__icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Địa chỉ của chúng tôi</h3>
+
+                    <ul class="footer__data">
+                        <li class="footer__information">1234 - Nhân Hoà</li>
+                        <li class="footer__information">Mỹ Hanof - 43210</li>
+                        <li class="footer__information">123-456-789</li>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Liên Hệ</h3>
+
+                    <ul class="footer__data">
+                        <li class="footer__information">+999 888 777</li>
+                        
+                        <div class="footer__social">
+                            <a href="https://www.facebook.com/" class="footer__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+                            <a href="https://www.instagram.com/" class="footer__social-link">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="https://twitter.com/" class="footer__social-link">
+                                <i class="ri-twitter-fill"></i>
+                            </a>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">
+                        Chấp nhận tất cả thẻ tín dụng
+                    </h3>
+
+                    <div class="footer__cards">
+                        <img src="assets/img/card1.png" alt="" class="footer__card">
+                        <img src="assets/img/card2.png" alt="" class="footer__card">
+                        <img src="assets/img/card3.png" alt="" class="footer__card">
+                        <img src="assets/img/card4.png" alt="" class="footer__card">
+                    </div>
+                </div>
+            </div>
+
+            <p class="footer__copy">&#169; Do Thi Xuan. Do an 2</p>
+        </footer>
+        
+        <!--=============== SCROLL UP ===============-->
+        <a href="#" class="scrollup" id="scroll-up"> 
+            <i class="ri-arrow-up-fill scrollup__icon"></i>
+        </a>
+
+        <!--=============== SCROLL REVEAL ===============-->
+        <script src="scrollreveal.min.js"></script>
+        <script src="https://app.embed.im/snow.js" defer></script>
+        <!--=============== MAIN JS ===============-->
+        <script src="main.js"></script>
+    </body>
+</html>

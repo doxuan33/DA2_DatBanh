@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="anh/favicon.png" type="image/x-icon">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.7.0/remixicon.css">
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+      <link rel="stylesheet" href="styles.css">
+      <link rel="stylesheet" href="css/sty.css">
+      <script src="js/angular/angular.min.js"></script>
+      <script src="js/angular/user.js"></script>
+      <script src="jquery-3.7.1.js" type="text/javascript"></script> 
+      <title>Bánh BREADS</title>
+   </head>
+   <body ng-app="AppAdmin">
+    <header class="header" id="header" ng-controller="UserCtrl">
+        <nav class="nav container" class="nav">
+            <a href="index.html" class="nav__logo">
+                <i class="ri-cake-3-fill"></i>Breads</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Trang chủ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="home.html" class="nav__link">Giới thiệu</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="new.html" class="nav__link">Tin tức</a>
+                    </li>
+                    <li class="nav__item">
+                        <div class="dropdown" id="dropdown">
+                            <a href="prod.html" class="nav__link">Sản phẩm </a>
+                            <div class="dropdown-content" id="dropdownMenu">
+                                <a href="prod.html">Bánh Macaron</a>
+                                <a href="prod.html">Bánh nướng</a>
+                                <a href="prod.html">Bánh bông lan</a>
+                                <a href="prod.html">Bán Pháp</a>
+                                <a href="prod.html">Bánh kem</a>
+                                <a href="prod.html">Đồ uống</a>
+                            </div> 
+                        </div>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">Liên hệ</a>
+                    </li>
+                    <li class="nav__item" id="cart">
+                        <a href="shop.html" class="notification">
+                            <i class='bx bxs-cart-download'></i>
+                            <span class="num">0</span>
+                        </a>
+                   </li>
+                   <li class="nav__item card__article" ng-controller="UserCtrl">
+                    <!-- Liên kết điều hướng đến trang profile -->
+                    <a href="profile.html" id="user" class="nav__link">
+                        <!-- Hiển thị biểu tượng nếu chưa đăng nhập -->
+                        <i class="ri-user-fill" ng-if="!currentUser"></i>
+                        <!-- Hiển thị ảnh đại diện nếu người dùng đã đăng nhập -->
+                        <img class="profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                    </a>
+                    <!-- Thông tin người dùng hiển thị khi hover -->
+                    <div class="card__tooltip" ng-if="currentUser">
+                        <div class="card__content">
+                            <a href="profile.html">
+                                <img class="card__profile" ng-if="currentUser && currentUser.anh" ng-src="anh/{{currentUser.anh}}" alt="Profile Picture">
+                            </a>
+                            <div class="card__data">
+                                <p><strong>Tên:</strong> {{currentUser.tenDangNhap}}</p>
+                                <p><strong>Email:</strong> {{currentUser.email}}</p>
+                                <p ng-if="currentUser.quyenHan === 'Admin'"><strong>Quyền:</strong> Admin</p>
+                                <p ng-if="currentUser.quyenHan !== 'Admin'"><strong>Quyền:</strong> Người dùng</p>
+                                <a href="#" class="card__button" ng-click="logout()">
+                                    <i class='bx bxs-log-out-circle'></i>
+                                    <span class="text">Đăng Xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                                   
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav__btns">
+                <!-- Theme change button -->
+                <i class="ri-moon-line change-theme" id="theme-button"></i>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+     <!-- main -->
+     <main class="main">
+        <div class="home" id="home">
+            <img src="anh/h1.jpg" alt="image" class="home__bg">
+            <div class="home__shadow"></div>
+            <div class="home__container container grid">
+                <div class="home__data">
+                    <h1 class="home__title">
+                        Tiệm bánh Breads
+                    </h1>
+                    <p class="home__description">
+                        Tình yêu bắt đầu bằng chiếc bánh thơm. 
+                        Add fresness to your new ideas.
+                    </p>
+                    <a href="#about" class="button button--flex">
+                        Explore <i class="ri-arrow-right-down-line button__icon"></i>
+                    </a>
+                    
+                </div>
+                <div class="home__social">
+                    <span class="home__social-follow">Follow Us</span>
+
+                    <div class="home__social-links">
+                        <a href="https://www.facebook.com/" target="_blank" class="home__social-link">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" class="home__social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://twitter.com/" target="_blank" class="home__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content" class=" container">
+        </div>
+        <div class="new section" id="new">
+            
+            <div class="new__container container grid" style="display: flex;">
+                <div class="new__data">
+                    <h2 class="new__title">Thành tựu</h2>
+                    <p class="new__drescription">Bakes tin rằng bánh ngọt cũng giống như tình yêu : 
+                        thú vị, chu đáo và trung thực.
+
+                    </p><br/>
+                    <p class="new__drescription">
+                        Kể từ năm 2015, chúng tôi đã không ngừng phát triển những hương vị, kiểu dáng và trải nghiệm bánh ngọt mới để khiến khách hàng không khỏi đoán già đoán non. Sự sáng tạo của chúng tôi không chỉ dừng lại ở bánh ngọt. Chúng tôi tìm ra những cách chu đáo để thiết kế bao bì để bạn có thể làm
+                         quà tặng hoặc sử dụng làm đĩa và những cách khác giúp cuộc sống của bạn dễ dàng hơn. Chúng tôi sử dụng thành phần tự
+                         nhiên, hoàn toàn không có chất bảo quản, và cũng đang dần nói không với Photoshop.
+                    </p>
+                </div>
+                <div class="new__data">
+                    <h2 class="new__title">Lịch sử</h2>
+                    <p class="new__drescription">Bakes được thành lập vào năm 2015 bởi Laure Chevallier, một doanh nhân khách sạn người Pháp và Tuân Lê, Giám đốc Sáng tạo người Mỹ gốc Việt.
+                        <br/><br/>
+                        Đầu bếp bánh ngọt điều hành của chúng tôi là Brian Gartner, từ Four Seasons và Ritz-Calrton. Đội làm bánh đến từ IECD, một học viện làm bánh của Pháp. Nhóm điều hành của chúng tôi do phụ nữ lãnh đạo và thân thiện với LGBTQI+.
+                    </p>
+                </div>
+            </div>
+         </div>
+         <div class="about__container container section grid" style="display: flex;">
+            <img src="anh/h-main.png" alt="" class="about__img">
+
+            <div class="about__data">
+                <h2 class="section__title about__title">
+                    Bếp bánh
+                </h2>
+
+                <p class="about__description">
+                    1 Bếp trưởng điều hành bếp bánh (Brian Gartner), 25 thợ làm bánh nhiệt huyết nướng bánh 14 giờ một ngày (2 ca!), 
+                    7 ngày một tuần. Chúng tôi nướng bánh ngay trong tiệm bánh rộng 1000m2 của mình tại Thảo Điền, TP.HCM.<br/>
+                    <br/>Căn bếp luôn được giữ gìn sạch sẽ, đảm bảo về an toàn thực phẩm. Nguyên liệu tươi mới trong ngày, đảm bảo chiếc bánh bạn cầm luôn nóng hổi trên tay 
+                </p>
+            </div>
+        </div>
+        <div class="about__container container section grid" style="display: flex;">
+            <div class="about__data">
+                <h2 class="section__title about__title">
+                    CHÚNG TÔI ĐANG TUYỂN DỤNG!
+                </h2>
+
+                <p class="about__description">
+                    Chúng tôi luôn tìm cách kết nối với những nhân viên phục vụ, nhà bếp, quầy bar, thợ làm bánh, nhân viên lễ tân và nhân viên điều hành trụ sở chính năng động và giàu lòng nhân ái.
+                </p>
+            </div>
+            <img src="anh/h-main2.png" alt="" class="about__img">
+        </div>   
+        <section class="stepson section ">
+                <div class="stepson__bg">
+                    <h2 class="section__title-center stepson__title">
+                        GIÁ TRỊ BREADS MANG LẠI CHO KHÁCH HÀNG
+                    </h2>
+
+                    <div class="stepson__container grid">
+                        <div class="stepson__card">
+                            <img src="anh/stepson1.png" alt="" class="stepson__card-number">
+                            <h3 class="stepson__card-title">Chất lượng</h3>
+                            <p class="stepson__card-description">
+                                MONA bakery cam kết và luôn ưu tiên chọn các loại nguyên vật liệu có nguồn gốc xuất xứ rõ ràng, có chất lượng tốt và an toàn cho sức khỏe.
+                            </p>
+                        </div>
+
+                        <div class="stepson__card">
+                            <img src="anh/stepson2.png" alt="" class="stepson__card-number">
+                            <h3 class="stepson__card-title">An toàn</h3>
+                            <p class="stepson__card-description">
+                                Sản phẩm của MONA là sản phẩm bánh tươi có thời gian sử dụng khá ngắn, và luôn phải để trong phòng lạnh hoặc tủ lạnh do sản phẩm không chứa chất bảo quản.
+                            </p>
+                        </div>
+
+                        <div class="stepson__card">
+                            <img src="anh/stepson3.png" alt="" class="stepson__card-number">
+                            <h3 class="stepson__card-title">Sự chân thành</h3>
+                            <p class="stepson__card-description">
+                                Mỗi sản phẩm xuất xưởng đều được nâng niu, trân trọng từ chất lượng đến vẻ ngoài. Niềm vui thưởng thức bánh của khách hàng luôn là động lực thúc đẩy cho chúng tôi làm việc mỗi ngày.</p>
+                        </div>
+                    </div>
+                </div>
+        </section>
+     </main>
+     <footer class="footer section">
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <i class="ri-cake-3-fill"></i>Breads
+                </a>
+
+                <h3 class="footer__title">
+                    Đăng ký theo dõi chúng tôi <br> để cập nhật
+                </h3>
+
+                <div class="footer__subscribe">
+                    <input type="email" placeholder="Enter your email" class="footer__input">
+
+                    <button class="button button--flex footer__button">
+                        Subscribe
+                        <i class="ri-arrow-right-up-line button__icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Địa chỉ của chúng tôi</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">1234 - Nhân Hoà</li>
+                    <li class="footer__information">Mỹ Hanof - 43210</li>
+                    <li class="footer__information">123-456-789</li>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Liên Hệ</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">+999 888 777</li>
+                    
+                    <div class="footer__social">
+                        <a href="https://www.facebook.com/" class="footer__social-link">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" class="footer__social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://twitter.com/" class="footer__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">
+                    Chấp nhận tất cả thẻ tín dụng
+                </h3>
+
+                <div class="footer__cards">
+                    <img src="assets/img/card1.png" alt="" class="footer__card">
+                    <img src="assets/img/card2.png" alt="" class="footer__card">
+                    <img src="assets/img/card3.png" alt="" class="footer__card">
+                    <img src="assets/img/card4.png" alt="" class="footer__card">
+                </div>
+            </div>
+        </div>
+
+        <p class="footer__copy">&#169; Do Thi Xuan. Do an 2</p>
+    </footer>
+      <!--=============== SCROLL REVEAL ===============-->
+      <script src="scrollreveal.min.js"></script>
+        
+      <!--=============== MAIN JS ===============-->
+      <script src="main.js"></script>
+   </body>
+</html>
